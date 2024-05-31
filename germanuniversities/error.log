@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/home/kapilsharma/www/germanuniversities/university.py", line 1851, in <module>
+    uc.fetch_universities_coureses()
+  File "/home/kapilsharma/www/germanuniversities/university.py", line 1016, in fetch_universities_coureses
+    for c in uc['courses']:
+TypeError: 'UniversityCourses' object is not subscriptable

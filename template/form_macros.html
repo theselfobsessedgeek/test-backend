@@ -1,0 +1,731 @@
+<!-- https://github.com/lingthio/Flask-User-starter-app/blob/master/app/templates/common/form_macros.html -->
+<!-- ################################################# edit_create_view #################################### -->
+{% macro edit_create_view(form, fn_target, kwargs, backurl, id = None, id1 = None, id2 = None, id3 = None, id4 = None, id5 = None, enctypevalue="application/x-www-form-urlencoded") -%}
+    {% if id != None %}
+        {% if id1 != None %}
+            {% if id2 != None %}
+                {% if id3 != None %}
+                    {% if id4 != None %}
+                        {% if id5 != None %}
+                            <form action="{{ url_for(fn_target, id = id, id1 = id1, id2 = id2, id3 = id3, id4 = id4, id5 = id5) }}" method="POST">
+                        {% else %}
+                            <form action="{{ url_for(fn_target, id = id, id1 = id1, id2 = id2, id3 = id3, id4 = id4) }}" method="POST">
+                        {% endif %}
+                    {% else %}
+                        <form action="{{ url_for(fn_target, id = id, id1 = id1, id2 = id2, id3 = id3) }}" method="POST">
+                    {% endif %}
+                {% else %}
+                    <form action="{{ url_for(fn_target, id = id, id1 = id1, id2 = id2) }}" method="POST">
+                {% endif %}
+            {% else %}
+                <form action="{{ url_for(fn_target, id = id, id1 = id1) }}" method="POST">
+            {% endif %}
+        {% else %}
+            <form action="{{ url_for(fn_target, id = id) }}" method="POST">
+        {% endif %}
+    {% else %}
+        <form action="{{ url_for(fn_target) }}" method="POST">
+    {% endif %}
+    {{ form.hidden_tag() }}
+    {{ form.csrf_token }}
+    <input type="hidden" class="form-control col-sm-2 col-form-label ms-5" name="next" value={{back}} />
+    {% for field in form %}
+        <div class="form-group row mb-1 {{ kwargs.get('bold_', '')}}">
+        {% if field.type == 'SubmitField' %}
+            {{render_submit_field(field)}}
+        {% else %}
+            {% if field.type == 'BooleanField' %}
+                {{render_checkbox_field(field, **kwargs)}}
+            {% else %}
+                {% if field.type != 'HiddenField' %}
+                    {% if field.id != 'csrf_token' %}
+                        {{render_field(field, **kwargs)}}
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+        {% endif %}
+        </div>
+    {% endfor %}
+        </form>
+{%- endmacro %}
+<!-- enctype="application/x-www-form-urlencoded" is default value. enctype="multipart/form-data" is for file upload -->
+<!-- {% macro edit_create_view(form, fn_target, kwargs, backurl, id = None, id1 = None, id2 = None, id3 = None, id4 = None, id5 = None, enctypevalue="application/x-www-form-urlencoded") -%}
+    {% if id != None %}
+        {% if id1 != None %}
+            {% if id2 != None %}
+                {% if id3 != None %}
+                    {% if id4 != None %}
+                        {% if id5 != None %} 
+                            
+                            <form action="{{ url_for(fn_target, id = id, id1 = id1, id2 = id2, id3 = id3, id4 = id4, id5 = id5) }}" method="POST" enctype = enctypevalue>
+                        {% else %}
+                            <form action="{{ url_for(fn_target, id = id, id1 = id1, id2 = id2, id3 = id3, id4 = id4) }}" method="POST" enctype = enctypevalue>
+                        {% endif %}
+                    {% else %}
+                        <form action="{{ url_for(fn_target, id = id, id1 = id1, id2 = id2, id3 = id3) }}" method="POST" enctype = enctypevalue>
+                    {% endif %}
+                {% else %}
+                    <form action="{{ url_for(fn_target, id = id, id1 = id1, id2 = id2) }}" method="POST" enctype = enctypevalue>
+                {% endif %}
+            {% else %}
+                <form action="{{ url_for(fn_target, id = id, id1 = id1) }}" method="POST" enctype = enctypevalue>
+            {% endif %}
+        {% else %}
+            <form action="{{ url_for(fn_target, id = id) }}" method="POST" enctype = enctypevalue>
+        {% endif %}
+    {% else %}
+        <form action="{{ url_for(fn_target) }}" method="POST" enctype = enctypevalue>
+    {% endif %}
+    {{ form.hidden_tag() }}
+    {{ form.csrf_token }}
+    <input type="hidden" class="form-control col-sm-2 col-form-label ms-5" name="next" value={{backurl}} />
+    {% for field in form %}
+        <div class="form-group row mb-3">
+            {% if field.type != 'SubmitField' %}
+                {% if field.id != 'csrf_token' %}
+                    <label for="{{ field.id }}" class="control-label col-sm-2 col-form-label ms-5">{{ field.label.text|safe }}</label>
+                    <div class="col-sm-10 mx-5">
+                    {{ field(**kwargs)|safe }}
+                    </div>
+                {% endif %}
+            {% else %}
+                <input type="submit" class="btn btn-primary mx-4 form-control" value="{{ field.label.text|safe }}">
+                {% if tabindex %}
+                    tabindex="{{ tabindex }}" 
+                {% endif %}
+            {% endif %}
+        </div>
+    {% endfor %}
+    </form>
+    {%- endmacro %} -->
+
+<!-- #################################################### Address Macro ####################################### -->
+{% macro render_addl2(addlist, usrid, id1, id2, id3, kwargs
+    , fn_targetaddcreate = 'users.addcreatel2', fn_targetaddedit = 'users.addeditl2', fn_targetadddelete = 'users.adddeletel2'
+    , fn_targetsmcreate = 'users.addsmcreatel2', fn_targetsmedit = 'users.addsmeditl2', fn_targetsmdelete = 'users.addsmdeletel2') -%}
+    {% for dept_off_add in addlist %}
+        <div class="{{ kwargs.get('class_', '') }}">
+            <h3>Department Address Type : {{dept_off_add.addtype}}</h3>
+            <a href="{{url_for(fn_targetaddcreate, id = usrid, id1 = id1, id2 = id2, id3 = id3  )}}">(Create)</a>
+            <a href="{{url_for(fn_targetaddedit, id = usrid, id1 = id1, id2 = id2, id3 = id3, id4 = dept_off_add.addtype  )}}">(Edit)</a>
+            <a href="{{url_for(fn_targetadddelete, id = usrid, id1 = id1, id2 = id2, id3 = id3, id4 = dept_off_add.addtype  )}}">(Delete)</a>
+            <h5>add :  {{dept_off_add.add}}</h5>
+            <h5>state :  {{dept_off_add.state}}</h5>
+            <h5>pin :  {{dept_off_add.pin}}</h5>
+            <h5>countary :  {{dept_off_add.countary}}</h5>
+            <h5>phone :  {{dept_off_add.phone}}</h5>
+            <h5>land :  {{dept_off_add.land}}</h5>
+            <h5>email :  {{dept_off_add.email}}</h5>
+            <a href="{{url_for(fn_targetsmcreate, id = usrid, id1 = id1, id2 = id2, id3 = id3, id4 = dept_off_add.addtype )}}"><h5>New Social Media Handle for Department </h5></a>
+            {% for kword in dept_off_add.sm %}
+                <a href={{kword.link}}>{{kword.desc}}</a>
+                <a href="{{url_for(fn_targetsmedit, id = usrid, id1 = id1, id2 = id2, id3 = id3, id4 = dept_off_add.addtype, id5 = kword.pk )}}">(Edit)</a>
+                <a href="{{url_for(fn_targetsmdelete, id = usrid, id1 = id1, id2 = id2, id3 = id3, id4 = dept_off_add.addtype, id5 = kword.pk )}}">(Delete)</a>
+                <br/>
+            {% endfor %}
+            <br/><br/>
+        </div>
+    {% endfor %}
+{%- endmacro %}
+{% macro render_addl1(addlist, usrid, id1, kwargs
+    , fn_targetaddcreate = 'users.addcreatel1', fn_targetaddedit = 'users.addeditl1', fn_targetadddelete = 'users.adddeletel1'
+    , fn_targetsmcreate = 'users.addsmcreatel1', fn_targetsmedit = 'users.addsmeditl1', fn_targetsmdelete = 'users.addsmdeletel1') -%}
+    {% for dept_off_add in addlist %}
+        <div class="{{ kwargs.get('class_', '') }}">
+            <h3>Department Address Type : {{dept_off_add.addtype}}</h3>
+            <a href="{{url_for(fn_targetaddcreate, id = usrid, id1 = id1  )}}">(Create)</a>
+            <a href="{{url_for(fn_targetaddedit, id = usrid, id1 = id1, id2 = dept_off_add.addtype  )}}">(Edit)</a>
+            <a href="{{url_for(fn_targetadddelete, id = usrid, id1 = id1, id2 = dept_off_add.addtype  )}}">(Delete)</a>
+            <h5>add :  {{dept_off_add.add}}</h5>
+            <h5>state :  {{dept_off_add.state}}</h5>
+            <h5>pin :  {{dept_off_add.pin}}</h5>
+            <h5>countary :  {{dept_off_add.countary}}</h5>
+            <h5>phone :  {{dept_off_add.phone}}</h5>
+            <h5>land :  {{dept_off_add.land}}</h5>
+            <h5>email :  {{dept_off_add.email}}</h5>
+            <a href="{{url_for(fn_targetsmcreate, id = usrid, id1 = id1, id2 = dept_off_add.addtype )}}"><h5>New Social Media Handle for Department </h5></a>
+            {% for kword in dept_off_add.sm %}
+                <a href={{kword.link}}>{{kword.desc}}</a>
+                <a href="{{url_for(fn_targetsmedit, id = usrid, id1 = id1, id2 = dept_off_add.addtype, id3 = kword.pk )}}">(Edit)</a>
+                <a href="{{url_for(fn_targetsmdelete, id = usrid, id1 = id1, id2 = dept_off_add.addtype, id3 = kword.pk )}}">(Delete)</a>
+                <br/>
+            {% endfor %}
+            <br/><br/>
+        </div>
+    {% endfor %}
+{%- endmacro %}
+<!-- ###################################################################################################################################### -->
+<!-- ##################################################### Paperreffile Macro############################# -->
+{% macro render_paperfileuplodedl1(pfulist, id, id1, backview, kwargs
+    ,fn_paperfileuplodedcreate = 'papers.fileuplodedcreatel1', fn_paperfileuplodededit = 'papers.fileuplodededitl1' 
+    , fn_paperfileuplodeddelete = 'papers.fileuplodeddeletel1') -%}
+    <div class="{{ kwargs.get('class_', '') }}">
+        <div class="col-sm-4">{{id1}}<button type="button" class="btn btn-sm btn-link" data-bs-toggle="modal" data-bs-target="#create_{{id1}}">Upload New File </button>
+        <!-- <button type="button" class="btn btn-sm btn-link" data-bs-toggle="modal" data-bs-target="#fileup">File Upload</button> -->
+            <ul>
+            {% for pfu in pfulist %}
+                <!-- puf is class FileUploded(db.EmbeddedDocument): -->
+                <li><a href="{{url_for('papers.download_file', path = pfu.path.replace('/', '-'), filename = pfu.filename )}}">{{pfu.filename}}</a>
+                <!-- <a href="{{url_for(fn_paperfileuplodedcreate, id = id, id1 = id1, id2 = id2, id3 = id3  )}}">(Create)</a> -->
+                <!-- <a href="{{url_for(fn_paperfileuplodededit, id = id, id1 = id1, id2 = id2, id3 = id3, id4 = pfu.pk  )}}">(Edit)</a> -->
+                (<button type="button" class="btn btn-sm btn-link" data-bs-toggle="modal" data-bs-target="#edit{{pfu.pk}}">Edit</button>
+                <button type="button" class="btn btn-sm btn-link" data-bs-toggle="modal" data-bs-target="#delete{{pfu.pk}}">Delete</button>)
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% for pfu in pfulist %}
+        <div class="modal fade" id="delete{{pfu.pk}}" tabindex="-1" aria-labelledby="deletelabel" aria-hidden="true" role="dialog">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deletelabel">Alert</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ url_for(fn_paperfileuplodeddelete, id = id, id1 = id1, id2 = pfu.pk  ) }}" method="POST">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <input type="hidden" name="next" value={{backview}} />
+                            <div class="form-group">
+                                <div>
+                                    <button type="submit" class="btn btn-success">
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="mb-3">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="edit{{pfu.pk}}" tabindex="-1" aria-labelledby="deletelabel" aria-hidden="true" role="dialog">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deletelabel">Alert</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ url_for(fn_paperfileuplodededit, id = id, id1 = id1, id2 = pfu.pk) }}" method="POST">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <input type="hidden" name="next" value={{backview}} />
+                            <label for="upfile">File:</label>
+                            <input type="text" name="upfile" id="upfile" value={{pfu.path+pfu.filename}} readonly><br>
+                            <label for="fileupdescinput">Discription:</label>
+                            <textarea id="fileupdescinput" name="desc" rows="4" cols="50">{{pfu.desc}}</textarea>
+                            <!-- <input type="text" name="desc" id="fileupdescinput" value={{pfu.desc}}> -->
+                            <div class="form-group">
+                                <div>
+                                    <button type="submit" class="btn btn-success">
+                                        Submit
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="mb-3">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>     
+    {% endfor %}
+    <div class="modal fade" id="create_{{id1}}" tabindex="-1" aria-labelledby="createlabel" aria-hidden="true" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createlabel">Alert</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ url_for(fn_paperfileuplodedcreate, id = id, id1 = id1 ) }}" method="POST" enctype="multipart/form-data" class="was-validated">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                        <input type="hidden" name="next" value={{backview}} />
+                        <div class="mb-3">
+                            <label for="fileupdescinput" class="form-label">File Desciption</label>
+                            <textarea name="desc" id="fileupdescinput" required class="form-control"></textarea>
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">Please fill out this field.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="fileupinput" class="form-label">File:</label>
+                            <input type="file" name="file" id="fileupinput" required class="form-control"><br>
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">Please fill out this field.</div>
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                <button type="submit" class="btn btn-success">
+                                    Upload
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="mb-3">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{%- endmacro %}
+{% macro render_paperfileuplodedl2(pfulist, id, id1, id2, id3, backview, kwargs
+    ,fn_paperfileuplodedcreate = 'papers.fileuplodedcreatel2', fn_paperfileuplodededit = 'papers.fileuplodededitl2' 
+    , fn_paperfileuplodeddelete = 'papers.fileuplodeddeletel2') -%}
+    <div class="{{ kwargs.get('class_', '') }}">
+        <div class="col-sm-4">{{id3}}<button type="button" class="btn btn-sm btn-link" data-bs-toggle="modal" data-bs-target="#create_{{id3}}">Upload New File </button>
+        <!-- <button type="button" class="btn btn-sm btn-link" data-bs-toggle="modal" data-bs-target="#fileup">File Upload</button> -->
+            <ul>
+            {% for pfu in pfulist %}
+                <!-- puf is class FileUploded(db.EmbeddedDocument): -->
+                <li><a href="{{url_for('papers.download_file', path = pfu.path.replace('/', '-'), filename = pfu.filename )}}">{{pfu.filename}}</a>
+                <!-- <a href="{{url_for(fn_paperfileuplodedcreate, id = id, id1 = id1, id2 = id2, id3 = id3  )}}">(Create)</a> -->
+                <!-- <a href="{{url_for(fn_paperfileuplodededit, id = id, id1 = id1, id2 = id2, id3 = id3, id4 = pfu.pk  )}}">(Edit)</a> -->
+                (<button type="button" class="btn btn-sm btn-link" data-bs-toggle="modal" data-bs-target="#edit{{pfu.pk}}">Edit</button>
+                <button type="button" class="btn btn-sm btn-link" data-bs-toggle="modal" data-bs-target="#delete{{pfu.pk}}">Delete</button>)
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% for pfu in pfulist %}
+        <div class="modal fade" id="delete{{pfu.pk}}" tabindex="-1" aria-labelledby="deletelabel" aria-hidden="true" role="dialog">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deletelabel">Alert</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ url_for(fn_paperfileuplodeddelete, id = id, id1 = id1, id2 = id2, id3 = id3, id4 = pfu.pk  ) }}" method="POST">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <input type="hidden" name="next" value={{backview}} />
+                            <div class="form-group">
+                                <div>
+                                    <button type="submit" class="btn btn-success">
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="mb-3">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="edit{{pfu.pk}}" tabindex="-1" aria-labelledby="deletelabel" aria-hidden="true" role="dialog">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deletelabel">Alert</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ url_for(fn_paperfileuplodededit, id = id, id1 = id1, id2 = id2, id3 = id3, id4 = pfu.pk  ) }}" method="POST">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <input type="hidden" name="next" value={{backview}} />
+                            <label for="upfile">File:</label>
+                            <input type="text" name="upfile" id="upfile" value={{pfu.path+pfu.filename}} readonly><br>
+                            <label for="fileupdescinput">Discription:</label>
+                            <textarea id="fileupdescinput" name="desc" rows="4" cols="50">{{pfu.desc}}</textarea>
+                            <!-- <input type="text" name="desc" id="fileupdescinput" value={{pfu.desc}}> -->
+                            <div class="form-group">
+                                <div>
+                                    <button type="submit" class="btn btn-success">
+                                        Submit
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="mb-3">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>     
+    {% endfor %}
+    <div class="modal fade" id="create_{{id3}}" tabindex="-1" aria-labelledby="createlabel" aria-hidden="true" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createlabel">Alert</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ url_for(fn_paperfileuplodedcreate, id = id, id1 = id1, id2 = id2, id3 = id3 ) }}" method="POST" enctype="multipart/form-data" class="was-validated">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                        <input type="hidden" name="next" value={{backview}} />
+                        <div class="mb-3">
+                            <label for="fileupdescinput" class="form-label">File Desciption</label>
+                            <textarea name="desc" id="fileupdescinput" required class="form-control"></textarea>
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">Please fill out this field.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="fileupinput" class="form-label">File:</label>
+                            <input type="file" name="file" id="fileupinput" required class="form-control"><br>
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">Please fill out this field.</div>
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                <button type="submit" class="btn btn-success">
+                                    Upload
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="mb-3">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{%- endmacro %}
+<!-- ################################################# create_edit_delete of Type/class LinkDesc #################################### -->
+<!-- id1 is property name of type LinkDesc in atLevel 1  -->
+{% macro render_linkdescl1(ldlist, id, id1, backview, kwargs
+    ,fn_linkdesccreate = 'papers.linkdesccreatel2', fn_linkdescedit = 'papers.linkdesceditl2' , fn_linkdescdelete = 'papers.linkdescdeletel2') -%}
+    <div class="{{ kwargs.get('class_', '') }}">
+        <div>{{id1}}<button type="button" class="btn btn-sm btn-link" data-bs-toggle="modal" data-bs-target="#create_{{id1}}">New</button></div>
+        {% for pfu in ldlist %}
+            <a href="{{pfu.link}}">| {{pfu.desc}}</a>
+            <button type="button" class="btn btn-sm btn-link" data-bs-toggle="modal" data-bs-target="#edit_{{id1}}_{{pfu.pk}}">Edit</button>
+            <button type="button" class="btn btn-sm btn-link" data-bs-toggle="modal" data-bs-target="#delete_{{id1}}_{{pfu.pk}}">Delete</button>
+        {% endfor %}
+    </div>
+    {% for pfu in ldlist %}
+        <div class="modal fade" id="delete_{{id1}}_{{pfu.pk}}" tabindex="-1" aria-labelledby="deletelabel" aria-hidden="true" role="dialog">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deletelabel">Alert</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ url_for(fn_linkdescdelete, id = id, id1 = id1, id2 = pfu.pk  ) }}" method="POST">
+                            <input type="hidden" class="form-control" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <input type="hidden" class="form-control col-sm-2 col-form-label ms-5" name="next" value={{backview}} />
+                            <div class="form-group">
+                                <div>
+                                    <button type="submit" class="btn btn-success">
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="mb-3">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="edit_{{id1}}_{{pfu.pk}}" tabindex="-1" aria-labelledby="deletelabel" aria-hidden="true" role="dialog">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deletelabel">Alert</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ url_for(fn_linkdescedit, id = id, id1 = id1, id2 = pfu.pk  ) }}" method="POST" class="was-validated">
+                            <input type="hidden" class="form-control" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <input type="hidden" class="form-control col-sm-2 col-form-label ms-5" name="next" value={{backview}} />
+                            <div class="mb-3">
+                                <label class="form-label" for="linkid_edit_{{id1}}_{{pfu.pk}}" >Url/Link:</label>
+                                <input type="text" name="link" value={{pfu.link}} required class="form-control" pattern="\S+.*" id="linkid_edit_{{id1}}_{{pfu.pk}}">
+                                <div class="valid-feedback">Valid.</div>
+                                <div class="invalid-feedback">Please fill out this field.</div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="filelinkdescinput_edit_{{id1}}_{{pfu.pk}}">Discription:</label>
+                                <textarea name="desc" required class="form-control" pattern="\S+.*" id="filelinkdescinput_edit_{{id1}}_{{pfu.pk}}">{{pfu.desc}}</textarea>
+                                <div class="valid-feedback">Valid.</div>
+                                <div class="invalid-feedback">Please fill out this field.</div>
+                            </div>
+                            <div class="form-group">
+                                <div>
+                                    <button type="submit" class="btn btn-success">
+                                        Submit
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="mb-3">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        <div class="modal fade" id="create_{{id1}}" tabindex="-1" aria-labelledby="deletelabel" aria-hidden="true" role="dialog">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deletelabel">Alert</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ url_for(fn_linkdesccreate, id = id, id1 = id1 ) }}" method="POST" class="was-validated">
+                            <input type="hidden" class="form-control" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <input type="hidden" class="form-control col-sm-2 col-form-label ms-5" name="next" value={{backview}} />
+                            <div class="mb-3">
+                                <label class="form-label" for="linkid_create_{{id1}}" >Url/Link:</label>
+                                <input type="text" name="link" value='' required class="form-control" pattern="\S+.*" id="linkid_create_{{id1}}">
+                                <div class="valid-feedback">Valid.</div>
+                                <div class="invalid-feedback">Please fill out this field.</div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="filelinkdescinput_create_{{id1}}">Discription:</label>
+                                <textarea name="desc" required class="form-control" pattern="\S+.*" id="filelinkdescinput_create_{{id1}}"></textarea>
+                                <div class="valid-feedback">Valid.</div>
+                                <div class="invalid-feedback">Please fill out this field.</div>
+                            </div>
+                            <div class="form-group">
+                                <div>
+                                    <button type="submit" class="btn btn-success">
+                                        Submit
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="mb-3">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{%- endmacro %}
+
+
+{% macro render_linkdescl2(ldlist, id, id1, id2, id3, backview, kwargs
+    ,fn_linkdesccreate = 'papers.linkdesccreatel2', fn_linkdescedit = 'papers.linkdesceditl2' , fn_linkdescdelete = 'papers.linkdescdeletel2') -%}
+    <div class="{{ kwargs.get('class_', '') }}">
+        <div>{{id3}}<button type="button" class="btn btn-sm btn-link" data-bs-toggle="modal" data-bs-target="#create_{{id3}}">New</button></div>
+        {% for pfu in ldlist %}
+            <a href="{{pfu.link}}">| {{pfu.desc}}</a>
+            <button type="button" class="btn btn-sm btn-link" data-bs-toggle="modal" data-bs-target="#edit_{{id3}}_{{pfu.pk}}">Edit</button>
+            <button type="button" class="btn btn-sm btn-link" data-bs-toggle="modal" data-bs-target="#delete_{{id3}}_{{pfu.pk}}">Delete</button>
+        {% endfor %}
+    </div>
+    {% for pfu in ldlist %}
+        <div class="modal fade" id="delete_{{id3}}_{{pfu.pk}}" tabindex="-1" aria-labelledby="deletelabel" aria-hidden="true" role="dialog">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deletelabel">Alert</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ url_for(fn_linkdescdelete, id = id, id1 = id1, id2 = id2, id3 = id3, id4 = pfu.pk  ) }}" method="POST">
+                            <input type="hidden" class="form-control" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <input type="hidden" class="form-control col-sm-2 col-form-label ms-5" name="next" value={{backview}} />
+                            <div class="form-group">
+                                <div>
+                                    <button type="submit" class="btn btn-success">
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="mb-3">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="edit_{{id3}}_{{pfu.pk}}" tabindex="-1" aria-labelledby="deletelabel" aria-hidden="true" role="dialog">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deletelabel">Alert</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ url_for(fn_linkdescedit, id = id, id1 = id1, id2 = id2, id3 = id3, id4 = pfu.pk  ) }}" method="POST" class="was-validated">
+                            <input type="hidden" class="form-control" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <input type="hidden" class="form-control col-sm-2 col-form-label ms-5" name="next" value={{backview}} />
+                            <div class="mb-3">
+                                <label class="form-label" for="linkid_edit_{{id3}}_{{pfu.pk}}" >Url/Link:</label>
+                                <input type="text" name="link" value={{pfu.link}} required class="form-control" pattern="\S+.*" id="linkid_edit_{{id3}}_{{pfu.pk}}">
+                                <div class="valid-feedback">Valid.</div>
+                                <div class="invalid-feedback">Please fill out this field.</div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="filelinkdescinput_edit_{{id3}}_{{pfu.pk}}">Discription:</label>
+                                <textarea name="desc" required class="form-control" pattern="\S+.*" id="filelinkdescinput_edit_{{id3}}_{{pfu.pk}}">{{pfu.desc}}</textarea>
+                                <div class="valid-feedback">Valid.</div>
+                                <div class="invalid-feedback">Please fill out this field.</div>
+                            </div>
+                            <div class="form-group">
+                                <div>
+                                    <button type="submit" class="btn btn-success">
+                                        Submit
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="mb-3">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        <div class="modal fade" id="create_{{id3}}" tabindex="-1" aria-labelledby="deletelabel" aria-hidden="true" role="dialog">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deletelabel">Alert</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ url_for(fn_linkdesccreate, id = id, id1 = id1, id2 = id2, id3 = id3  ) }}" method="POST" class="was-validated">
+                            <input type="hidden" class="form-control" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <input type="hidden" class="form-control col-sm-2 col-form-label ms-5" name="next" value={{backview}} />
+                            <div class="mb-3">
+                                <label class="form-label" for="linkid_create_{{id3}}" >Url/Link:</label>
+                                <input type="text" name="link" value='' required class="form-control" pattern="\S+.*" id="linkid_create_{{id3}}">
+                                <div class="valid-feedback">Valid.</div>
+                                <div class="invalid-feedback">Please fill out this field.</div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="filelinkdescinput_create_{{id3}}">Discription:</label>
+                                <textarea name="desc" required class="form-control" pattern="\S+.*" id="filelinkdescinput_create_{{id3}}"></textarea>
+                                <div class="valid-feedback">Valid.</div>
+                                <div class="invalid-feedback">Please fill out this field.</div>
+                            </div>
+                            <div class="form-group">
+                                <div>
+                                    <button type="submit" class="btn btn-success">
+                                        Submit
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="mb-3">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{%- endmacro %}
+<!-- ##########################################################################create_edit_delete of Type/class LinkDesc  ######## -->
+
+{% macro render_field(field, label=None, label_visible=true, right_url=None, right_label=None) -%}
+    <div class="form-group {% if field.errors %}has-error{% endif %} {{ kwargs.pop('class_', '') }}">
+        {% if field.type != 'HiddenField' and label_visible %}
+            {% if not label %}{% set label=field.label.text %}{% endif %}
+            <label for="{{ field.id }}" class="control-label">{{ label|safe }}</label>
+        {% endif %}
+        {{ field(class_='form-control', **kwargs) }}
+        {% if field.errors %}
+            {% for e in field.errors %}
+                <p class="help-block">{{ e }}</p>
+            {% endfor %}
+        {% endif %}
+    </div>
+{%- endmacro %}
+
+
+{% macro render_checkbox_field(field, label=None) -%}
+    {% if not label %}{% set label=field.label.text %}{% endif %}
+    <div class="checkbox form-group {{ kwargs.pop('class_', '') }}">
+        <label for="{{ field.id }}" class="control-label form-control">
+            {{ field(type='checkbox', **kwargs) }} {{ label }}
+        </label>
+    </div>
+{%- endmacro %}
+
+{% macro render_radio_field(field) -%}
+    {% for value, label, checked in field.iter_choices() %}
+        <div class="radio">
+            <label>
+                <input type="radio" name="{{ field.id }}" id="{{ field.id }}" value="{{ value }}"{% if checked %} checked{% endif %}>
+                {{ label }}
+            </label>
+        </div>
+    {% endfor %}
+{%- endmacro %}
+
+{% macro render_submit_field(field, label=None, tabindex=None) -%}
+    {% if not label %}{% set label=field.label.text %}{% endif %}
+    {#<button type="submit" class="form-control btn btn-default btn-primary mx-4">{{label|safe}}</button>#}
+    <input type="submit" class="form-control btn btn-primary mx-4" value="{{label|safe}}"
+        {% if tabindex %}tabindex="{{ tabindex }}"{% endif %}
+        >
+{%- endmacro %}
+
+{% macro render_flashed_messages(txt=None) -%}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class=flashes>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+{%- endmacro %}

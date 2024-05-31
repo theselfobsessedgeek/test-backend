@@ -1,0 +1,55 @@
+{% extends "base.html" %} {% block content %}
+
+<form action="{{ url_for('auth.login') }}" method="POST">
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        Login
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {% for field in form %}
+                    <div class="mb-3 mt-4">
+                        <label for="{{ field.id }}" class="form-label">{{ field.label.text|safe }}</label>
+                        {{ field(class_='form-control') }}
+                    </div>
+                    {% endfor %}
+                    <!-- <div class="mb-3 mt-4">
+                        <label for="exampleInputEmail1" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                            name="email" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="exampleInputPassword" name="password" />
+                    </div> -->
+                </div>
+                <div class="mb-3">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#resetpaswdModal">
+                        Reset Pasword
+                    </button>
+                    <!-- <a
+              class="link"
+              href="#resetpaswdModal"
+              onclick='{$(this).dialog("close");}'
+              >Reset Password</a
+            > -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Close
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        Login
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+ {% endblock %}

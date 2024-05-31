@@ -1,0 +1,23 @@
+{% extends "base.html" %} {% block content %}
+<!-- {% from "form_macros.html" import render_field, render_submit_field %} -->
+
+<form action="{{ url_for('users.faculty') }}" method="POST">
+  {{ form.hidden_tag() }}
+  {% for field in form %}
+
+  <div class="form-group row mb-3">
+    {% if field.type != 'SubmitField' %}
+    <label for="{{ field.id }}" class="control-label col-sm-2 col-form-label ms-5">{{ field.label.text|safe }}</label>
+    <div class="col-sm-10 mx-5">
+      {{ field(class_='form-control') }}
+    </div>
+    {% else %}
+    <input type="submit" class="btn btn-primary mx-4 form-control" value="{{ field.label.text|safe }}" {% if tabindex
+      %}tabindex="{{ tabindex }}" {% endif %}>
+    {% endif %}
+
+  </div>
+  
+  {% endfor %}
+</form>
+{% endblock %}

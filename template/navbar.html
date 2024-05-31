@@ -1,0 +1,160 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ url_for('main.index') }}">Kapil Sharma</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse show" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{{url_for('main.index')}}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{{url_for('users.createuser')}}">CreateUser</a>
+                </li>
+                <li class="nav-item">
+                    {% if current_user.is_authenticated %}
+                    <a class="nav-link active" aria-current="page"
+                        href="{{ url_for('auth.logout') }}">{{current_user.username}}</a>
+                    <!-- <a class="nav-link active" aria-current="page" href="{{ url_for('auth.logout') }}">{{current_user.get_id()}}</a> -->
+                    {% else %}
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#authloginModal">
+                        Login
+                    </button>
+                    {% endif %}
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        User
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{{url_for('users.userroles')}}">Roles</a></li>
+                        <li><a class="dropdown-item" href="{{url_for('users.userdetails')}}">Details</a></li>
+                        <li><a class="dropdown-item" href="{{url_for('users.awards')}}">Awards</a></li>
+                        <li><a class="dropdown-item" href="{{url_for('users.books')}}">Books</a></li>
+                        <li><a class="dropdown-item" href="{{url_for('users.contactsadd')}}">Contact</a></li>
+                        <li><a class="dropdown-item" href="{{url_for('users.createuser')}}">CreateUser</a></li>
+                        <li><a class="dropdown-item" href="{{url_for('users.department')}}">Department</a></li>
+                        <li><a class="dropdown-item" href="{{url_for('users.faculty')}}">faculty</a></li>
+                        <li><a class="dropdown-item" href="{{url_for('users.indcolab')}}">Industry Collaboration</a></li>
+                        <li><a class="dropdown-item" href="{{url_for('users.patents')}}">Patents</a></li>
+
+                        <li><a class="dropdown-item" href="{{url_for('users.socialimpact')}}">Social Impact</a></li>
+                        <li><a class="dropdown-item" href="{{url_for('users.sponsoredprojects')}}">Sponsored Projects</a></li>
+                        <li><a class="dropdown-item" href="{{url_for('users.startup')}}">StartUp</a></li>
+                        <li><a class="dropdown-item" href="{{url_for('users.student')}}">Student</a></li>
+                        <li><a class="dropdown-item" href="{{url_for('users.technologytransfer')}}">Technology Transfer</a></li>
+                        <li><a class="dropdown-item" href="{{url_for('users.university')}}">University</a></li>
+                        
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#">Department</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div>
+            {% if current_user.is_authenticated %}
+            <a class="nav-link active me-2" aria-current="page"
+                href="{{ url_for('main.index') }}">{{session["target_username"]}}</a>
+                    <!-- <a class="nav-link active" aria-current="page" href="{{ url_for('auth.logout') }}">{{current_user.get_id()}}</a> -->
+            {% endif %}
+        </div>
+    </div>
+</nav>
+
+<div class="modal fade" id="authloginModal" tabindex="-1" aria-labelledby="authloginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="authloginModalLabel">
+                    Login
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('auth.login') }}" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    <div class="mb-3 mt-4">
+                        <label for="authloginInputEmail" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="authloginInputEmail" aria-describedby="emailHelp"
+                            name="email" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="authloginInputPassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="authloginInputPassword" name="password"
+                            required />
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <button type="submit" class="btn btn-success">
+                                Login
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="mb-3">
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Close
+                    </button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#resetpaswdModal">
+                        Reset Pasword
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="resetpaswdModal" tabindex="-1" aria-labelledby="resetpaswdModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="resetpaswdModalLabel">
+                    Reset Password
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('auth.resetpaswd') }}" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    <div class="mb-3 mt-4">
+                        <label for="resetpaswdInputEmail" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="resetpaswdInputEmail" aria-describedby="emailHelp"
+                            name="email" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="resetpaswdInputPasswordold" class="form-label">Old Password</label>
+                        <input type="password" class="form-control" id="resetpaswdInputPasswordold" name="oldpassword"
+                            required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="resetpaswdInputPasswordnew" class="form-label">New Password</label>
+                        <input type="password" class="form-control" id="resetpaswdInputPasswordnew" name="newpassword"
+                            required />
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <button type="submit" class="btn btn-success">
+                                Reset Password
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

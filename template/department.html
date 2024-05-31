@@ -1,0 +1,15 @@
+{% from 'form_macros.html' import render_add %}
+{% extends "base.html" %} {% block content %}
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+<input type="hidden" name="next" value={{back}} />
+<a href="{{url_for(fn_create, id = usrid )}}">(New Department)</a>
+    {% for dept in department %}
+        <a href={{dept.url}}><h1>{{dept.name}}</h1></a>
+        <a href="{{url_for(fn_edit, id = usrid, id1 = dept.pk )}}">(Edit)</a>
+        <a href="{{url_for(fn_delete, id = usrid, id1 = dept.pk )}}">(Delete)</a>
+        <a href="{{url_for(fn_targetaddcreate, id = usrid, id1 = 'department', id2 = dept.pk, id3 = 'office' )}}">(create new Department Address)</a></br>
+        {{render_add(dept.office
+            , fn_targetaddedit, usrid, 'department', dept.pk, 'office' 
+            , fn_targetsmcreate, fn_targetsmedit, fn_targetsmdelete)}}
+    {% endfor %}
+{% endblock %}
