@@ -22,12 +22,12 @@ import json
 # from flask.ext.mongoengine.wtf import model_form
 
 # from . import bcrypt # circular import
-from . import Add, Faculty, Student, University, Department, SponsoredProjects, Patents, IndustryCollaboration # Address, Contact,
+from __init__ import Add, Faculty, Student, University, Department, SponsoredProjects, Patents, IndustryCollaboration # Address, Contact,
 # mongoengine, bcrypt, app
-from . import StartUp, Books, Awards, SocialImpact, TechnologyTransfer, db, bcrypt, csrf, User, LinkDesc, get_a_uuid
-from .models import UserContactsForm, UserLoginForm, UserFacultyForm, UserStudentForm, UserTargetForm, UserUniversityForm, UserDepartmentForm, UserSponsoredProjectsForm
-from .models import  UserPatentsForm, UserIndustryCollaborationForm, UserStartUpForm, UserBooksForm, UserAwardsForm, UserSocialImpactForm, UserTechnologyTransferForm, UserInformation, UserRoleForm, UserNewForm
-from .models import UploadForm, AddressForm, SocialMediaAddressForm
+from __init__ import StartUp, Books, Awards, SocialImpact, TechnologyTransfer, db, bcrypt, csrf, User, LinkDesc, get_a_uuid
+from models import UserContactsForm, UserLoginForm, UserFacultyForm, UserStudentForm, UserTargetForm, UserUniversityForm, UserDepartmentForm, UserSponsoredProjectsForm
+from models import  UserPatentsForm, UserIndustryCollaborationForm, UserStartUpForm, UserBooksForm, UserAwardsForm, UserSocialImpactForm, UserTechnologyTransferForm, UserInformation, UserRoleForm, UserNewForm
+from models import UploadForm, AddressForm, SocialMediaAddressForm
 
 from werkzeug.utils import secure_filename
 
