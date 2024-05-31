@@ -13,10 +13,10 @@ from pymongo import ReturnDocument
 # from flask.ext.mongoengine.wtf import model_form
 
 # from . import bcrypt # circular import
-from . import Add, Faculty, Student, University, Department, SponsoredProjects, Patents, IndustryCollaboration #Address, Contact,
+from __init__ import Add, Faculty, Student, University, Department, SponsoredProjects, Patents, IndustryCollaboration #Address, Contact,
 # mongoengine, bcrypt, app
-from . import StartUp, Books, Awards, SocialImpact, TechnologyTransfer, User, bcrypt #, db
-from .models import UserLoginForm
+from __init__ import StartUp, Books, Awards, SocialImpact, TechnologyTransfer, User, bcrypt #, db
+from models import UserLoginForm
 
 auth = Blueprint('auth', __name__)
 
