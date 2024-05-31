@@ -13,10 +13,10 @@ from flask_login import current_user, login_required
 from flask_wtf import FlaskForm
 from bson.objectid import ObjectId
 #from bson import ObjectId
-from .users import Iscurrentuseradmin, errormessages, User, edit_create_view_id, details_dict_view, details_dict_listview
-from .models import AllocatePapertoUserForm,DeallocatePapertoUserForm, PaperNewForm,PaperEditForm, PaperDeleteForm, PaperFileUplodedForm, PaperRefFileForm, PaperSelectForm, LinkDescForm
-from .models import ResearchProblemForm, RPKeywordsForm, PaperPersonForm,PaperPersonFormEdit, PaperDiscussionBoardCommentForm, PaperSubmittedinJournalForm, PaperSubmittedinConferenceForm, RPAplicationsForm, RPJournals_ConfForm, RPCode_LinksForm, RPDataSets_linksForm, RPPeoplesForm, RPArticalsForm, RPResouresForm, RPSocialmediaForm
-from . import Paper, get_a_uuid, PaperPerson, ResearchProblem, FileUploded, LinkDesc,  PaperRefFile, PaperDiscussionBoardComment, PaperSubmittedinJournal, PaperSubmittedinConference
+from users import Iscurrentuseradmin, errormessages, User, edit_create_view_id, details_dict_view, details_dict_listview
+from models import AllocatePapertoUserForm,DeallocatePapertoUserForm, PaperNewForm,PaperEditForm, PaperDeleteForm, PaperFileUplodedForm, PaperRefFileForm, PaperSelectForm, LinkDescForm
+from models import ResearchProblemForm, RPKeywordsForm, PaperPersonForm,PaperPersonFormEdit, PaperDiscussionBoardCommentForm, PaperSubmittedinJournalForm, PaperSubmittedinConferenceForm, RPAplicationsForm, RPJournals_ConfForm, RPCode_LinksForm, RPDataSets_linksForm, RPPeoplesForm, RPArticalsForm, RPResouresForm, RPSocialmediaForm
+from __init__ import Paper, get_a_uuid, PaperPerson, ResearchProblem, FileUploded, LinkDesc,  PaperRefFile, PaperDiscussionBoardComment, PaperSubmittedinJournal, PaperSubmittedinConference
 from werkzeug.utils import secure_filename
 
 papers = Blueprint('papers', __name__)
