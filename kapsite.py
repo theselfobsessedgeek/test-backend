@@ -1,13 +1,19 @@
-from . import create_app, g#, db, request
+import sys
+import os
+
+# Add the parent directory to the system path
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__)))
+sys.path.append(parent_dir)
+import __init__ as init
 from flask_mongoengine import MongoEngine
 # Start development web server
 if __name__ == '__main__':
-   app = create_app()
+   app = init.create_app()
    def get_db():
        if 'db' not in g:
-           g.db = MongoEngine()
-           g.db.init_app(app)
-       return g.db   
+           init.g.db = MongoEngine()
+           init.g.db.init_app(app)
+       return init.g.db   
     # @app.before_request
     # def before_request():
     #     g.db = db.init_app(app) #connect_db()
