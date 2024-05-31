@@ -13,16 +13,18 @@ if __name__ == '__main__':
        if 'db' not in init.g:
            init.g.db = MongoEngine()
            init.g.db.init_app(app)
-       return init.g.db   
-    # @app.before_request
-    # def before_request():
-    #     g.db = db.init_app(app) #connect_db()
-    # @app.teardown_appcontext
-    # def teardown_db(exception):
-    #     db = g.pop('db', None)
-    #     if db is not None:
-    #         db.close()
-   app.run(host='0.0.0.0', port=5000, debug=False, ssl_context=('cert.pem', 'key.pem'))
+       return init.g.db
+   
+#    @app.before_request
+#     def before_request():
+#         init.g.db = init.db.init_app(app) #connect_db()
+   
+#     @app.teardown_appcontext
+#     def teardown_db(exception):
+#         db = init.g.pop('db', None)
+#         if db is not None:
+#             db.close()
+   app.run(host='0.0.0.0', port=8000, debug=False, ssl_context=('cert.pem', 'key.pem'))
 
 
 
