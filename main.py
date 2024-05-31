@@ -1,3 +1,9 @@
+import sys
+import os
+
+# Add the parent directory to the system path
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__)))
+sys.path.append(parent_dir)
 from flask import render_template , render_template_string, Blueprint, session
 #from . import mongo
 

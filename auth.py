@@ -1,3 +1,9 @@
+import sys
+import os
+
+# Add the parent directory to the system path
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__)))
+sys.path.append(parent_dir)
 from distutils.log import error
 from hashlib import new
 from flask import Blueprint, session, request, current_app, flash, render_template, redirect, url_for, render_template,  jsonify

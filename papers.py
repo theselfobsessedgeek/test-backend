@@ -1,3 +1,9 @@
+import sys
+import os
+
+# Add the parent directory to the system path
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__)))
+sys.path.append(parent_dir)
 import os
 from flask import Blueprint, session, request, current_app, send_from_directory, render_template_string, redirect, url_for, flash
 #from wtforms.validators import URL #InputRequired, Length

@@ -1,3 +1,9 @@
+import sys
+import os
+
+# Add the parent directory to the system path
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__)))
+sys.path.append(parent_dir)
 # # config.py
 
 DEBUG = True  # Turns on debugging features in Flask
