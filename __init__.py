@@ -95,16 +95,16 @@ def create_app(test_config=None):
         csrf.init_app(app)
         
         # blueprint for auth routes in our app
-        from .auth import auth as auth_blueprint
+        from auth import auth as auth_blueprint
         app.register_blueprint(auth_blueprint)
         # blueprint for auth routes in our app
-        from .main import main as main_blueprint
+        from main import main as main_blueprint
         app.register_blueprint(main_blueprint)
         # blueprint for users routes in our app
-        from .users import users as users_blueprint
+        from users import users as users_blueprint
         app.register_blueprint(users_blueprint)
         # blueprint for papers routes in our app
-        from .papers import papers as papers_blueprint
+        from papers import papers as papers_blueprint
         app.register_blueprint(papers_blueprint)
         
         # session
