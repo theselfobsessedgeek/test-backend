@@ -24,7 +24,7 @@ app = init.create_app()
 #         db = init.g.pop('db', None)
 #         if db is not None:
 #             db.close()
-app.run(host='0.0.0.0', port=3000, debug=False, ssl_context=('cert.pem', 'key.pem'))
+app.run(host='0.0.0.0', port=7000, debug=False, ssl_context=('cert.pem', 'key.pem'))
 
 
 
