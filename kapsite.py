@@ -7,13 +7,13 @@ sys.path.append(parent_dir)
 import __init__ as init
 from flask_mongoengine import MongoEngine
 # Start development web server
-if __name__ == '__main__':
-   app = init.create_app()
-   def get_db():
-       if 'db' not in init.g:
-           init.g.db = MongoEngine()
-           init.g.db.init_app(app)
-       return init.g.db
+# if __name__ == '__main__':
+app = init.create_app()
+#    def get_db():
+#        if 'db' not in init.g:
+#            init.g.db = MongoEngine()
+#            init.g.db.init_app(app)
+#        return init.g.db
    
 #    @app.before_request
 #     def before_request():
