@@ -29,6 +29,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_wtf import FlaskForm
 # from wtforms import StringField, SubmitField, PasswordField, BooleanField, ValidationError
 from wtforms.validators import DataRequired, EqualTo, Length
+from flask_cors import CORS
+
+
 #from .paper import Paper
 #from .main import main as main_blueprint
 #from .auth import auth as auth_blueprint
@@ -61,6 +64,7 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True,
                 template_folder='template', instance_path=os.getcwd() + '/instance')
     app.config.from_object('config')
+    CORS(app)
 #     # app.config.from_pyfile('config.py')
 
     if test_config is None:
