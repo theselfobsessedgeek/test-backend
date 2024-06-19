@@ -15,9 +15,9 @@ if __name__ == '__main__':
             init.g.db.init_app(app)
         return init.g.db
     
-    @app.before_request
-    def before_request():
-        init.g.db = init.db.init_app(app) #connect_db()
+    # @app.before_request
+    # def before_request():
+    #     init.g.db = init.db.init_app(app) #connect_db()
     
     # @app.teardown_appcontext
     # def teardown_db(exception):
