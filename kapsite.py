@@ -19,11 +19,11 @@ if __name__ == '__main__':
     def before_request():
         init.g.db = init.db.init_app(app) #connect_db()
     
-    @app.teardown_appcontext
-    def teardown_db(exception):
-        db = init.g.pop('db', None)
-        if db is not None:
-             db.close()
+    # @app.teardown_appcontext
+    # def teardown_db(exception):
+    #     db = init.g.pop('db', None)
+    #     if db is not None:
+    #          db.close()
     app.run(host='0.0.0.0',port=4000, debug=False, ssl_context=('cert.pem', 'key.pem'))
 
 
