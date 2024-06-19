@@ -12,7 +12,7 @@ main = Blueprint('main', __name__)
 
 @main.route('/')
 def index():
-    return render_template("index.html")
+    return render_template("template/index.html")
     # String-based templates
     # return render_template_string("""
     #     {% extends "flask_user_layout.html" %}

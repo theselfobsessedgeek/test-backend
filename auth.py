@@ -38,7 +38,7 @@ def logout():
     #print("Logout")
     return redirect("/") #redirect(url_for('login'))
 
-@ auth.route('/login', methods=['POST'])
+@auth.route('/login', methods=['POST'])
 def login():
     #print('login print')
     # and loginform.validate_on_submit():  # and form.validate_on_submit(): #form.validate():
@@ -85,7 +85,7 @@ def login():
 #     return redirect('/')
 
 
-@ auth.route('/resetpaswd', methods=['POST'])
+@auth.route('/resetpaswd', methods=['POST'])
 #@login_required
 def resetpaswd():
     if request.method == "POST":

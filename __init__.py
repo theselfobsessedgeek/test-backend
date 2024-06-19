@@ -174,7 +174,7 @@ def create_app(test_config=None):
         @login_required    # User must be authenticated
         def member_page():
             # String-based templates
-            return render_template_string("""
+            return render_template_string('''
                 {% extends "flask_user_layout.html" %}
                 {% block content %}
                     <h2>Members page</h2>
@@ -184,7 +184,7 @@ def create_app(test_config=None):
                     <p><a href={{ url_for('member_page') }}>Member page</a> (login required)</p>
                     <p><a href={{ url_for('user.logout') }}>Sign out</a></p>
                 {% endblock %}
-                """)
+                ''')
     
         @login_manager.user_loader
         def load_user(id):
@@ -215,6 +215,7 @@ def get_new_filename(filename,ext):
 
 class LinkDesc(db.EmbeddedDocument):
     # Link and is's description
+    
     pk = db.StringField(max_length=100,default='') # pk
     desc = db.StringField(max_length=500,default='') # Unique PK
     link = db.StringField(max_length=500,default='')
