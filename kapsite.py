@@ -7,24 +7,24 @@ sys.path.append(parent_dir)
 import __init__ as init
 from flask_mongoengine import MongoEngine
 # Start development web server
-# if __name__ == '__main__':
-app = init.create_app()
-#    def get_db():
-#        if 'db' not in init.g:
-#            init.g.db = MongoEngine()
-#            init.g.db.init_app(app)
-#        return init.g.db
-   
-#    @app.before_request
-#     def before_request():
-#         init.g.db = init.db.init_app(app) #connect_db()
-   
-#     @app.teardown_appcontext
-#     def teardown_db(exception):
-#         db = init.g.pop('db', None)
-#         if db is not None:
-#             db.close()
-app.run(host='0.0.0.0',port=80, debug=False, ssl_context=('cert.pem', 'key.pem'))
+if __name__ == '__main__':
+    app = init.create_app()
+    def get_db():
+        if 'db' not in init.g:
+            init.g.db = MongoEngine()
+            init.g.db.init_app(app)
+        return init.g.db
+    
+    @app.before_request
+    def before_request():
+        init.g.db = init.db.init_app(app) #connect_db()
+    
+    @app.teardown_appcontext
+    def teardown_db(exception):
+        db = init.g.pop('db', None)
+        if db is not None:
+             db.close()
+    app.run(host='0.0.0.0',port=4000, debug=False, ssl_context=('cert.pem', 'key.pem'))
 
 
 
