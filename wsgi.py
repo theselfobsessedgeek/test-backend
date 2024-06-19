@@ -9,6 +9,5 @@ sys.path.append(parent_dir)
 
 import __init__ as init
 
-if __name__ == '__main__':
-    app = init.create_app()
-    app.run(host='0.0.0.0', port=4000, debug=False, ssl_context=('cert.pem', 'key.pem'))
+app = init.create_app()
+app.run(host='0.0.0.0', port=4000, debug=False, ssl_context=('cert.pem', 'key.pem'))
